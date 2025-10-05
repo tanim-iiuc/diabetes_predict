@@ -10,8 +10,7 @@ from app_utils import (
     generate_prediction_report_pdf, load_nb5, load_nb6, load_bundle, prepare_single_input,
     meta_predict_proba, explain_with_shap, is_original_feature,
     subset_explanation, fig_waterfall_plotly, llm_summary_from_shap,
-    generate_random_user
-)
+    generate_random_user)
 
 st.set_page_config(
     page_title="Diabetes Evaluation & Prediction", layout="wide")
