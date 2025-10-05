@@ -22,6 +22,7 @@ import streamlit as st
 import plotly.graph_objects as go
 import os
 from typing import Iterable
+import google.generativeai as genai
 # ---------- Paths ----------
 BUNDLE_DIR = Path("./model_bundle_merged")
 NB5_CSV = Path("data_reports/nb5_all_configs_agg_clean.csv")
@@ -562,7 +563,6 @@ def llm_summary_from_shap(
         return "[LLM summary unavailable] Set GOOGLE_API_KEY in Streamlit secrets or environment."
 
     try:
-        import google.generativeai as genai
         genai.configure(api_key=api_key)
         model = genai.GenerativeModel(model_name)
     except Exception:
