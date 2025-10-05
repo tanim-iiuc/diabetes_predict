@@ -1,0 +1,11 @@
+{
+  "scheme": "merged_all",
+  "imputer": "median",
+  "base_models": [
+    "rf",
+    "deep_ann"
+  ],
+  "meta": "logistic_regression (OOF)",
+  "feature_count": 7,
+  "date": "2025-09-27T06:09:08.390589"
+}

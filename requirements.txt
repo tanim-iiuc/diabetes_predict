@@ -1,0 +1,23 @@
+# Core app
+streamlit>=1.36.0
+plotly>=5.24.0
+matplotlib>=3.9.0
+numpy>=1.26.4
+pandas>=2.2.2
+joblib>=1.4.2
+shap>=0.44.0
+
+# Machine learning / Deep learning
+tensorflow>=2.16.1
+keras>=3.3.3
+
+# PDF and visualization utilities
+reportlab>=4.2.0
+
+# Typing, paths, and helpers
+typing_extensions>=4.12.2
+pathlib
+datetime
+
+# Optional (recommended) — for better figure rendering and debugging
+Pillow>=10.3.0
