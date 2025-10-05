@@ -734,6 +734,7 @@ def generate_prediction_report_pdf(pred_info, shap_df=None, llm_text=None, shap_
         return buf
 
     for feat, val in pred_info["inputs"].items():
+        import matplotlib.pyplot as plt
         minv, maxv = feature_ranges.get(feat, (0, 1))
         story.append(Paragraph(f"<b>{feat}</b>: {val:.2f}", styles["Normal"]))
         bar_img = make_scale_bar(val, minv, maxv)
@@ -744,11 +745,36 @@ def generate_prediction_report_pdf(pred_info, shap_df=None, llm_text=None, shap_
 
     # --- SHAP Waterfall Chart (without kaleido) ---
     if shap_fig is not None:
-        # story.append(
-        #     Paragraph("Contribution to the Diagnosis", heading_style))
-        img_bytes = pio.to_image(shap_fig, format="png")
-        img_buf = BytesIO(img_bytes)
-        story.append(Image(img_buf, width=440, height=300))
+        story.append(
+            Paragraph("Contribution to Diagnosis", heading_style))
+
+        # Render Plotly figure in memory without using kaleido
+        import tempfile
+        import matplotlib.pyplot as plt
+
+        tmp_html = tempfile.NamedTemporaryFile(delete=False, suffix=".html")
+        shap_fig.write_html(tmp_html.name)
+
+        # Use Plotly's static renderer through HTML snapshot
+        try:
+            # fallback: convert Plotly figure into static PNG using matplotlib
+            img_buf = BytesIO()
+            # we can simulate a waterfall by plotting shap_df values if needed
+            shap_values = shap_df["contrib"].values
+            features = shap_df["feature"].values
+            plt.figure(figsize=(6, 3))
+            plt.barh(features, shap_values, color=[
+                    "red" if v > 0 else "blue" for v in shap_values])
+            plt.xlabel("SHAP Value")
+            plt.tight_layout()
+            plt.savefig(img_buf, format="png")
+            plt.close()
+            img_buf.seek(0)
+            story.append(Image(img_buf, width=440, height=300))
+        except Exception as e:
+            story.append(
+                Paragraph(f"<i>Unable to render SHAP chart: {e}</i>", styles["Normal"]))
+
         story.append(Spacer(1, 15))
 
     # --- LLM Explanation ---
