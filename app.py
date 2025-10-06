@@ -57,6 +57,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+
+
 tab_eval, tab_pred = st.tabs(
     ["Performance Evaluation", "Prediction & Explanation"])
 
@@ -382,7 +384,17 @@ with tab_eval:
 # TAB 2: Prediction & Explanation
 # ------------------------------------------------------------
 with tab_pred:
-    st.subheader("Live Prediction & Explainability")
+    st.warning(
+        "⚠️ Disclaimer: This prediction and explanation are experimental and **not a medical diagnosis**. "
+        "Consult a qualified clinician.")
+    st.markdown(
+        """
+    <h4 style='text-align: center;'>
+        📈 <b>Live Prediction & Explainability</b>
+    </h4>
+    """,
+        unsafe_allow_html=True
+    )
 
     bundle = _get_bundle()
     use_cols = bundle["use_cols"]

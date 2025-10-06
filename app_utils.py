@@ -616,7 +616,7 @@ Tasks:
 6. Do not include any introductory filler or disclaimers; start directly with the bullet points.
 """
 
-    print(prompt)
+    # print(prompt)
 
     try:
         resp = model.generate_content(prompt)
