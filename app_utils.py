@@ -1,5 +1,4 @@
 # app_utils.py
-import plotly.io as pio
 from datetime import datetime
 from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable, Image

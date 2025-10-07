@@ -15,28 +15,6 @@ from app_utils import (
 st.set_page_config(
     page_title="Diabetes Evaluation & Prediction", layout="wide")
 
-# ============================================================
-# Helpers
-# ============================================================
-
-
-def _radar_plot(df, metrics, title=""):
-    fig = go.Figure()
-    for _, r in df.iterrows():
-        vals = [float(r[m]) for m in metrics]
-        vals.append(vals[0])
-        fig.add_trace(go.Scatterpolar(
-            r=vals, theta=metrics + [metrics[0]],
-            name=str(r["model"]), fill="none",
-            hovertemplate=f"{r['model']}<br>%{{theta}}: %{{r:.3f}}<extra></extra>"
-        ))
-    fig.update_layout(
-        title=title,
-        polar=dict(radialaxis=dict(visible=True, range=[0, 1])),
-        showlegend=True, height=650
-    )
-    return fig
-
 
 @st.cache_resource
 def _get_bundle():
@@ -138,6 +116,14 @@ with tab_eval:
         # -------------------- Global model selection --------------------
         model_sel = st.multiselect(
             "Models (applies to both radars)", models, default=models)
+        st.markdown(
+                """
+    <h4 style='text-align: center;'>
+        📈 <b>Radar Plots comparison</b>
+    </h4>
+    """,
+                unsafe_allow_html=True
+            )
 
         # -------------------- Two-column radar display --------------------
         radar_cols = st.columns(2)
@@ -203,7 +189,14 @@ with tab_eval:
                 st.plotly_chart(fig, use_container_width=True)
 
         # -------------------- Stability scatter — mean vs std (no legend, no labels) --------------------
-        st.subheader("Stability scatter — mean vs std")
+        st.markdown(
+            """
+    <h4 style='text-align: center;'>
+        📈 <b>Stability scatter — mean vs std</b>
+    </h4>
+    """,
+            unsafe_allow_html=True
+        )
 
         avail_metrics = [m for m in metrics_all if (
             m+"_mean" in df.columns and m+"_std" in df.columns)]
@@ -571,7 +564,7 @@ st.markdown("""
     </style>
 
     <div class="footer">
-        © 2025  Built by 
+        © 2025  Developed by 
         <a href="https://scholar.google.com/citations?user=yflDgiMAAAAJ" target="_blank">
             <b>Tauhidul Islam</b>
         </a> with ❤️ using Streamlit
